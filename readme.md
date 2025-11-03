@@ -2,22 +2,22 @@
 
 ## **Descrição do Projeto**
 
-Foi desenvolvido um app simulando um portal escolar onde o aluno/responsável faz o login, visualiza documentos escolares e pode enviar novos documentos para a escola.
+Foi desenvolvido um aplicativo que simula um portal escolar, no qual o aluno ou responsável realiza o login, visualiza documentos escolares e pode enviar novos documentos para a instituição.
 
-Abaixo segue os passos para rodar o projeto em seu computador.
+A seguir, estão descritos os passos necessários para executar o projeto em seu computador.
 
-## **Configuração inicial**
+## **Configuração Inicial**
 
-Faça o clone do repositório na sua área de trabalho (ou caminho de sua preferência) fazendo o download do arquivo .ZIP ou via terminal. Caso tenha feito o download, extraia os arquivos e acesse a pasta via terminal seguindo o caminho de onde a pasta foi extraída.
+Faça o clone do repositório na sua área de trabalho (ou no diretório de sua preferência) realizando o download do arquivo .ZIP ou via terminal. Caso tenha feito o download, extraia os arquivos e acesse a pasta correspondente via terminal, seguindo o caminho de onde os arquivos foram extraídos.
 
-**Requisitos Importantes:**
+**Requisitos importantes:**
 
-- Para testar o aplicativo, é altamente recomendado que você tenha o aplicativo `Expo Go` instalado em seu celular. Outra alterantiva é usar um emulador em seu computador.
-- Para cada pasta do projeto, você irá utilizar uma janela independente do CMD. Portanto, use uma para rodar o servidor e outra para rodar a aplicação mantendo as duas abertas.
+- Para testar o aplicativo, é altamente recomendável ter o aplicativo `Expo Go` instalado em seu dispositivo móvel. Como alternativa, é possível utilizar um emulador em seu computador.
+- Para cada pasta do projeto, utilize uma janela independente do CMD. Dessa forma, uma será destinada à execução do servidor e outra à execução da aplicação, mantendo ambas abertas simultaneamente.
 
-### **1. Subindo o servidor (Backend)**
+### **1. Executando o Servidor (Backend)**
 
-1.1 Com uma das janelas do CMD na raíz do projeto, acesse a pasta `backend` para fazer a instalação e subir o servidor:
+1.1. Em uma das janelas do CMD, localize a raiz do projeto, acesse a pasta `backend` e execute os comandos abaixo para instalar as dependências e iniciar o servidor:
 
 ```
 cd backend
@@ -25,23 +25,23 @@ cd backend
 npm install
 ```
 
-1.2 Após finalizar a instalação digite:
+1.2. Após a conclusão da instalação, execute o comando:
 
 ```
 npm run dev
 ```
 
-1.3 No seu terminal, você deve visualizar uma mensagem semelhante a:
+1.3. No terminal, deverá ser exibida uma mensagem semelhante à imagem a seguir:
 
 ![server no terminal](image/server.png)
 
-> _Obs: Se você já tiver algum projeto rodando na porta 3000, acesse o arquivo `server.ts` em `desafio-proesc-mobile/backend/src/server.ts` e altere a variável `PORT` para uma porta livre._
+> _Observação: Caso já exista algum projeto em execução na porta 3000, acesse o arquivo `server.ts` em `desafio-proesc-mobile/backend/src/server.ts` e altere a variável `PORT` para uma porta livre._
 
-### **2. Iniciando a aplicação (Frontend)**
+### **2. Iniciando a Aplicação (Frontend)**
 
-Com o servidor rodando em uma das janelas do CMD, vamos instalar e iniciar a aplicação em outra.
+Com o servidor em execução em uma das janelas do CMD, prossiga para a instalação e inicialização da aplicação em outra janela.
 
-2.1 Utilize uma segunda janela do CMD também na raíz do projeto e acesse a pasta `frontend` e instale as dependências:
+2.1. Utilize uma nova janela do CMD, também posicionada na raiz do projeto, acesse a pasta `frontend` e instale as dependências com o comando:
 
 ```
 cd frontend
@@ -49,22 +49,22 @@ cd frontend
 npm install
 ```
 
-2.2 Aguarde até o final da instalação e depois rode o projeto:
+2.2. Após a instalação, execute o projeto com o comando:
 
 ```
 npx expo start
 ```
 
-2.3 Com a aplicação rodando, você pode:
+2.3. Com a aplicação em execução, é possível:
 
-- Apontar a camera do celular para o QR code no terminal (iOS);
-- Scanear o QR code com o Expo Go (Android);
-- Apertar a tecla `a` no terminal que está rodando a aplicação para rodar no emulador Android (lembre-se de que o emulador precisa estar ligado);
-- Apertar a tecla `i` no terminal que está rodando a aplicação para rodar no emulador iOS (lembre-se de que o emulador precisa estar ligado);
-- Se você estiver visualizando a tela abaixo, deu tudo certo:
+- Apontar a câmera do dispositivo móvel para o QR Code exibido no terminal (iOS);
+- Escanear o QR Code utilizando o aplicativo Expo Go (Android);
+- Pressionar a tecla `a` no terminal para executar no emulador Android (certifique-se de que o emulador esteja ativo);
+- Pressionar a tecla `i` no terminal para executar no emulador iOS (certifique-se de que o emulador esteja ativo);
+- Caso a tela abaixo seja exibida, a configuração foi concluída com sucesso:
   ![tela de login](/image/loginScreen.png)
 
-### **Credenciais de teste**
+### **Credenciais de Teste**
 
 - Matrícula: 2025070015
 - Senha: 123321

@@ -1,11 +1,14 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import path from "path";
+import data from "../public/assets/mock/data.json";
 
 const app = express();
-const PORT = 3000;
+export const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use("/assets", express.static(path.join(__dirname, "../public/assets")));
 
 const users = [
   {
@@ -25,6 +28,29 @@ const users = [
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: `Servidor rodando na porta: ${PORT}` });
+});
+
+app.get("/api/student/documents", (req: Request, res: Response) => {
+  const documentos = data.availableDocuments.map((doc) => ({
+    ...doc,
+    url: doc.url.replace("./assets/", "/assets/"),
+  }));
+  if (!documentos)
+    return res
+      .status(200)
+      .json({ message: "Você ainda não enviou nenhum documento." });
+  res.status(200).json(documentos);
+});
+
+app.get("/api/available-categories", (req: Request, res: Response) => {
+  const categoriasDoc = data.documentCategories;
+
+  if (!categoriasDoc)
+    return res
+      .status(400)
+      .json({ message: "Não foi possível retornar as categorias." });
+
+  res.status(200).json(categoriasDoc);
 });
 
 app.post("/auth/login", (req: Request, res: Response) => {
