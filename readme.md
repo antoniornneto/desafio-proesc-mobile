@@ -20,6 +20,7 @@ Antes de prosseguir, certifique-se de ter instalado:
 ```bash
 # Via CMD ou bash
 git clone https://github.com/antoniornneto/desafio-proesc-mobile.git
+
 cd desafio-proesc-mobile
 
 # Ou faça o download do .ZIP e exraia
@@ -104,6 +105,13 @@ desafio-proesc-mobile/
 │ └── package.json
 ├── frontend/       # Aplicativo React Native + Expo 54
 │ ├── src/
+│ ├── components/
+│ ├── context/
+│ ├── hooks/
+│ ├── routes/
+│ ├── screens/
+│ ├── styles/
+│ ├── utils/
 │ └── package.json
 └── image/          # Recursos de imagem
 

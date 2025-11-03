@@ -3,15 +3,23 @@ import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 type ButtonProps = TouchableOpacityProps & {
   className?: string;
+  classNameButton?: string;
   title?: string;
   children?: ReactNode;
   variant?: 'primary' | 'transparent' | 'invisible';
 };
 
-export function Button({ title, className, children, variant = 'primary', ...rest }: ButtonProps) {
+export function Button({
+  title,
+  className,
+  classNameButton,
+  children,
+  variant = 'primary',
+  ...rest
+}: ButtonProps) {
   return (
     <TouchableOpacity
-      className={`flex h-14 items-center justify-center rounded-lg ${variant === 'primary' ? 'bg-black' : variant === 'transparent' ? 'border border-gray-300 bg-transparent' : 'border border-transparent bg-transparent'}`}
+      className={`flex h-14 items-center justify-center rounded-lg ${variant === 'primary' ? 'bg-black' : variant === 'transparent' ? 'border border-gray-300 bg-transparent' : 'border border-transparent bg-transparent'} ${classNameButton}`}
       {...rest}>
       {children ? (
         children

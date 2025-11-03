@@ -21,9 +21,9 @@ export interface Document {
 export interface UploadedDocument {
   id: string;
   title: string;
-  category: 'atestado' | 'justificativa' | 'requerimento';
+  category: 'atestado' | 'justificativa' | 'requerimento' | 'outros';
   status: 'enviado' | 'em_analise' | 'aprovado' | 'rejeitado';
-  uploadDate: string;
+  date: string;
   file: File;
   url: string;
   type: 'pdf' | 'docx' | 'html' | 'image';

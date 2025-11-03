@@ -1,21 +1,12 @@
 import { Container } from '@/components/Container';
 import { useDocuments } from '@/hooks/useDocuments';
 import React, { useEffect, useState } from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  Linking,
-  Platform,
-  RefreshControl,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, ScrollView, TextInput, Linking, Platform, RefreshControl } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { BASEURL, obterNomeArquivo } from '@/utils/config';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AndroidWarning } from '@/components/AndroidWarning';
 
 export default function AvailableDocuments({ navigation }: any) {
   const {
@@ -58,28 +49,9 @@ export default function AvailableDocuments({ navigation }: any) {
         <Text className="font-poppins_bold text-3xl">Documentos Disponíveis</Text>
       </View>
 
+      {/* Aviso Android */}
       {showAndroidWarning && (
-        <Modal
-          visible={true}
-          animationType="fade"
-          transparent
-          onRequestClose={() => setShowAndroidWarning(false)}>
-          <View className="flex-1 items-center justify-center bg-black/50">
-            <View className="m-6 w-[90%] rounded-2xl bg-white p-6 shadow-lg">
-              <Text className="mb-2 font-poppins_bold text-xl">Aviso importante</Text>
-              <Text className="mb-4 font-poppins_regular text-gray-700">
-                Arquivos <Text className="font-poppins_bold">.pdf</Text> e{' '}
-                <Text className="font-poppins_bold">.docx</Text> podem não ser exibidos
-                corretamente. Você poderá abri-los ou baixá-los no navegador.
-              </Text>
-              <TouchableOpacity
-                onPress={() => setShowAndroidWarning(false)}
-                className="self-end rounded-lg bg-blue-600 px-4 py-2">
-                <Text className="font-poppins_bold text-white">Entendi</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+        <AndroidWarning visible={showAndroidWarning} onClose={() => setShowAndroidWarning(false)} />
       )}
       <View className="gap-2 py-4">
         <View className="flex-row flex-wrap">

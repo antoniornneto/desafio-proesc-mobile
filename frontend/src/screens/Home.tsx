@@ -3,11 +3,17 @@ import { useHome } from '@/hooks/useHome';
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { formatarData, formatarDataISO, formatarTamanhoArquivo } from '@/utils/config';
 
 export default function Home({ navigation }: any) {
   const { user, logOut, refreshing, onRefresh, documents, sentDocuments } = useHome();
-
+  useFocusEffect(
+    React.useCallback(() => {
+      onRefresh();
+    }, [onRefresh])
+  );
   if (!user) {
     return null;
   }
@@ -48,7 +54,7 @@ export default function Home({ navigation }: any) {
                     <Text className="font-poppins_bold text-xl">{document.title}</Text>
                     <View className="flex-row">
                       <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
-                        {document.description}
+                        {`${formatarData(document.date)} | ${document.size}`}
                       </Text>
                       <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
                     </View>
@@ -66,16 +72,18 @@ export default function Home({ navigation }: any) {
             </TouchableOpacity>
             {(sentDocuments || []).length > 0 ? (
               (sentDocuments || [])
-                .sort((a, b) => new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime())
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .slice(0, 3)
                 .map((document) => (
                   <View key={document.id}>
-                    <Text className="font-poppins_bold text-xl">- {document.title}</Text>
+                    <Text className="font-poppins_bold text-xl">{document.title}</Text>
                     <View className="flex-row">
                       <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
                         {document.description}
                       </Text>
-                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
+                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
+                        {`${formatarDataISO(document.date)} | ${formatarTamanhoArquivo(document.size)}`}
+                      </Text>
                     </View>
                   </View>
                 ))

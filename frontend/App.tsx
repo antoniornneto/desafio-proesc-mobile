@@ -6,6 +6,8 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserProvider, useUser } from '@/context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 function UserLoader({ children }: { children: React.ReactNode }) {
   const { setUser } = useUser();
@@ -33,9 +35,13 @@ export default function App() {
     <UserProvider>
       <UserLoader>
         <ThemeProvider>
-          <NavigationContainer>
-            <Routes />
-          </NavigationContainer>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider>
+              <NavigationContainer>
+                <Routes />
+              </NavigationContainer>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
         </ThemeProvider>
       </UserLoader>
     </UserProvider>
