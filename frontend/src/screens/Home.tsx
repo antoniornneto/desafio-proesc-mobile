@@ -1,15 +1,12 @@
 import { Container } from '@/components/Container';
 import { useHome } from '@/hooks/useHome';
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useDocuments } from '@/hooks/useDocuments';
-import { formatarData } from '@/utils/config';
 
 export default function Home({ navigation }: any) {
-  const { user, logOut } = useHome();
-  const { documents } = useDocuments();
+  const { user, logOut, refreshing, onRefresh, documents, sentDocuments } = useHome();
 
   if (!user) {
     return null;
@@ -29,51 +26,62 @@ export default function Home({ navigation }: any) {
         </Text>
       </View>
       <View>
-        <Text className="font-poppins_bold text-4xl">Documentos</Text>
+        <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
+          As listas abaixo mostram os 3 últimos documentos postados e enviados. Acesse uma das
+          opções para visualizar todos os documentos.
+        </Text>
       </View>
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View className="gap-8">
           <View className="gap-2">
             <TouchableOpacity onPress={() => navigation.navigate('AvailableDocuments')}>
               <Text className="font-poppins_bold text-2xl text-[#1976d2] underline">
-                Documentos Disponíveis
+                Documentos Disponíveis <Text>({documents?.length})</Text>
               </Text>
             </TouchableOpacity>
-            {documents?.map((document) => (
-              <View key={document.id}>
-                <Text className="font-poppins_bold text-xl">- {document.title}</Text>
-                <View className="flex-row">
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
-                    Enviado: {formatarData(document.date)} |{' '}
-                  </Text>
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
-                    {document.size} | .{document.type.toUpperCase()}
-                  </Text>
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
-                </View>
-              </View>
-            ))}
+            {(documents || []).length > 0 ? (
+              (documents || [])
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                .slice(0, 3)
+                .map((document) => (
+                  <View key={document.id}>
+                    <Text className="font-poppins_bold text-xl">{document.title}</Text>
+                    <View className="flex-row">
+                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
+                        {document.description}
+                      </Text>
+                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
+                    </View>
+                  </View>
+                ))
+            ) : (
+              <Text className="font-poppins_regular text-zinc-400">Sem documentos.</Text>
+            )}
           </View>
           <View className="gap-2">
             <TouchableOpacity onPress={() => navigation.navigate('SentDocuments')}>
               <Text className="font-poppins_bold text-2xl text-[#1976d2] underline">
-                Documentos Enviados
+                Documentos Enviados <Text>({sentDocuments?.length})</Text>
               </Text>
             </TouchableOpacity>
-            {documents?.map((document) => (
-              <View key={document.id}>
-                <Text className="font-poppins_bold text-xl">- {document.title}</Text>
-                <View className="flex-row">
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
-                    Enviado: {formatarData(document.date)} |{' '}
-                  </Text>
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
-                    {document.size} | .{document.type.toUpperCase()}
-                  </Text>
-                  <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
-                </View>
-              </View>
-            ))}
+            {(sentDocuments || []).length > 0 ? (
+              (sentDocuments || [])
+                .sort((a, b) => new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime())
+                .slice(0, 3)
+                .map((document) => (
+                  <View key={document.id}>
+                    <Text className="font-poppins_bold text-xl">- {document.title}</Text>
+                    <View className="flex-row">
+                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]">
+                        {document.description}
+                      </Text>
+                      <Text className="mt-1 font-poppins_medium text-sm text-[#a1a1a1]"></Text>
+                    </View>
+                  </View>
+                ))
+            ) : (
+              <Text className="font-poppins_regular text-zinc-400">Nenhum documento enviado.</Text>
+            )}
           </View>
         </View>
       </ScrollView>

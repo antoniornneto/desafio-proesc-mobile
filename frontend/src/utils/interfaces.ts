@@ -14,6 +14,7 @@ export interface Document {
   category: 'historico' | 'boletim' | 'declaracao' | 'comunicado';
   url: string;
   date: string;
+  description: string;
   size: string;
 }
 
@@ -24,4 +25,12 @@ export interface UploadedDocument {
   status: 'enviado' | 'em_analise' | 'aprovado' | 'rejeitado';
   uploadDate: string;
   file: File;
+  url: string;
+  type: 'pdf' | 'docx' | 'html' | 'image';
+  size: string;
+  description: string;
+}
+
+export interface Categories {
+  [key: string]: string;
 }

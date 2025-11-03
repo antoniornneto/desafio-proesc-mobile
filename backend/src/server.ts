@@ -30,29 +30,6 @@ app.get("/", (req: Request, res: Response) => {
   res.json({ message: `Servidor rodando na porta: ${PORT}` });
 });
 
-app.get("/api/student/documents", (req: Request, res: Response) => {
-  const documentos = data.availableDocuments.map((doc) => ({
-    ...doc,
-    url: doc.url.replace("./assets/", "/assets/"),
-  }));
-  if (!documentos)
-    return res
-      .status(200)
-      .json({ message: "Você ainda não enviou nenhum documento." });
-  res.status(200).json(documentos);
-});
-
-app.get("/api/available-categories", (req: Request, res: Response) => {
-  const categoriasDoc = data.documentCategories;
-
-  if (!categoriasDoc)
-    return res
-      .status(400)
-      .json({ message: "Não foi possível retornar as categorias." });
-
-  res.status(200).json(categoriasDoc);
-});
-
 app.post("/auth/login", (req: Request, res: Response) => {
   const { matricula, senha } = req.body;
 
@@ -64,7 +41,7 @@ app.post("/auth/login", (req: Request, res: Response) => {
     return res.status(401).json({ message: "Matrícula ou senha incorretos" });
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: "Login realizado.",
     user: {
       matricula: user.matricula,
@@ -75,6 +52,51 @@ app.post("/auth/login", (req: Request, res: Response) => {
       cpf: user.cpf,
     },
   });
+});
+
+app.get("/api/available-categories", (req: Request, res: Response) => {
+  const categoriasDoc = data.documentCategories;
+
+  if (!categoriasDoc)
+    return res
+      .status(400)
+      .json({ message: "Não foi possível retornar as categorias." });
+
+  return res.status(200).json(categoriasDoc);
+});
+
+app.get("/api/status-config", (req: Request, res: Response) => {
+  const statusConfig = data.statusConfig;
+
+  if (!statusConfig)
+    return res.status(400).json({
+      message: "Não foi possível retornar as configurações de status.",
+    });
+
+  return res.status(200).json(statusConfig);
+});
+
+app.get("/api/student/documents", (req: Request, res: Response) => {
+  const documentos = data.availableDocuments.map((doc) => ({
+    ...doc,
+    url: doc.url.replace("./assets/", "/assets/"),
+  }));
+  if (!documentos)
+    return res.status(400).json({ message: "Erro ao buscar documentos." });
+
+  return res.status(200).json(documentos);
+});
+
+app.get("/api/student/documents/uploaded", (req: Request, res: Response) => {
+  try {
+    const docUploadeds = data.uploadedDocuments.map((doc) => doc);
+    if (!docUploadeds)
+      return res.status(400).json({ message: "Erro ao buscar documentos." });
+
+    return res.status(200).json(docUploadeds);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.listen(PORT, () => {

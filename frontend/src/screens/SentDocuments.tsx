@@ -1,5 +1,4 @@
 import { Container } from '@/components/Container';
-import { useDocuments } from '@/hooks/useDocuments';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -10,14 +9,23 @@ import {
   Linking,
   Platform,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { BASEURL, obterNomeArquivo } from '@/utils/config';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSentDocuments } from '@/hooks/useSentDocuments';
 
 export default function SentDocuments({ navigation }: any) {
-  const { categoriesA, categoryFilter, setCategoryFilter, filteredDocuments } = useDocuments();
+  const {
+    categoriesU,
+    categoryFilter,
+    setCategoryFilter,
+    filteredDocuments,
+    onRefresh,
+    refreshing,
+  } = useSentDocuments();
   const [showAndroidWarningSent, setShowAndroidWarningSent] = useState<boolean>(false);
 
   useEffect(() => {
@@ -76,8 +84,8 @@ export default function SentDocuments({ navigation }: any) {
       <View className="gap-2 py-4">
         <View className="flex-row flex-wrap">
           <Text className="font-poppins_regular text-base text-gray-500">Categorias: </Text>
-          {categoriesA &&
-            Object.entries(categoriesA).map(([key, value], index, array) => (
+          {categoriesU &&
+            Object.entries(categoriesU).map(([key, value], index, array) => (
               <Text
                 key={`categorie_${key}`}
                 className="font-poppins_regular text-base text-gray-500">
@@ -87,51 +95,57 @@ export default function SentDocuments({ navigation }: any) {
             ))}
         </View>
         <TextInput
-          placeholder="Ex: histórico, declaraoção, boletim..."
+          placeholder="Ex: atestado, justificativa, requerimento..."
           value={categoryFilter}
           onChangeText={setCategoryFilter}
           className="h-12 rounded-lg border border-[#bbbbbb] bg-white px-3 py-2 font-poppins_regular"
           keyboardType="default"
         />
       </View>
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View className="gap-10 py-8">
-          {filteredDocuments?.map((document) => {
-            const isAndroidAndDocType =
-              Platform.OS === 'android' && (document.type === 'pdf' || document.type === 'docx');
-            const fileUrl = `${BASEURL}${document.url}`;
+          {(filteredDocuments || []).length > 0 ? (
+            filteredDocuments?.map((document) => {
+              const isAndroidAndDocType =
+                Platform.OS === 'android' && (document.type === 'pdf' || document.type === 'docx');
+              const fileUrl = `${BASEURL}${document.url}`;
 
-            return (
-              <View key={document.id} className="gap-4">
-                {isAndroidAndDocType ? (
-                  <View className="flex-row flex-wrap">
-                    <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                    <View>
-                      <Text className="font-poppins_regular text-base text-gray-400">
-                        Arquivo: {`${obterNomeArquivo(document.url)} | ${document.size}`}
+              return (
+                <View key={document.id} className="gap-4">
+                  {isAndroidAndDocType ? (
+                    <View className="flex-row flex-wrap">
+                      <Text className="font-poppins_bold text-lg">{document.title}</Text>
+                      <View>
+                        <Text className="font-poppins_regular text-base text-gray-400">
+                          Arquivo: {`${obterNomeArquivo(document.url)} | ${document.size}`}
+                        </Text>
+                      </View>
+                      <Text
+                        className="font-poppins_regular text-[#1976d2] underline"
+                        onPress={() => Linking.openURL(fileUrl)}>
+                        Fazer o download ou abrir no navegador.
                       </Text>
                     </View>
-                    <Text
-                      className="font-poppins_regular text-[#1976d2] underline"
-                      onPress={() => Linking.openURL(fileUrl)}>
-                      Fazer o download ou abrir no navegador.
-                    </Text>
-                  </View>
-                ) : (
-                  <View>
-                    <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                    <WebView
-                      source={{ uri: `${BASEURL}${document.url}` }}
-                      style={{ height: 400 }}
-                      startInLoadingState
-                      scrollEnabled
-                      nestedScrollEnabled
-                    />
-                  </View>
-                )}
-              </View>
-            );
-          })}
+                  ) : (
+                    <View>
+                      <Text className="font-poppins_bold text-lg">{document.title}</Text>
+                      <WebView
+                        source={{ uri: `${BASEURL}${document.url}` }}
+                        style={{ height: 400 }}
+                        startInLoadingState
+                        scrollEnabled
+                        nestedScrollEnabled
+                      />
+                    </View>
+                  )}
+                </View>
+              );
+            })
+          ) : (
+            <Text className="font-poppins_regular text-zinc-400">
+              Você ainda não enviou documentos.
+            </Text>
+          )}
         </View>
       </ScrollView>
     </Container>

@@ -9,6 +9,7 @@ import {
   TextInput,
   Linking,
   Platform,
+  RefreshControl,
   TouchableOpacity,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -17,7 +18,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function AvailableDocuments({ navigation }: any) {
-  const { categoriesA, categoryFilter, setCategoryFilter, filteredDocuments } = useDocuments();
+  const {
+    categoriesA,
+    categoryFilter,
+    setCategoryFilter,
+    filteredDocuments,
+    onRefresh,
+    refreshing,
+  } = useDocuments();
   const [showAndroidWarning, setShowAndroidWarning] = useState<boolean>(false);
 
   useEffect(() => {
@@ -94,44 +102,50 @@ export default function AvailableDocuments({ navigation }: any) {
           keyboardType="default"
         />
       </View>
-      <ScrollView>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View className="gap-10 py-8">
-          {filteredDocuments?.map((document) => {
-            const isAndroidAndDocType =
-              Platform.OS === 'android' && (document.type === 'pdf' || document.type === 'docx');
-            const fileUrl = `${BASEURL}${document.url}`;
+          {(filteredDocuments || []).length > 0 ? (
+            filteredDocuments?.map((document) => {
+              const isAndroidAndDocType =
+                Platform.OS === 'android' && (document.type === 'pdf' || document.type === 'docx');
+              const fileUrl = `${BASEURL}${document.url}`;
 
-            return (
-              <View key={document.id} className="gap-4">
-                {isAndroidAndDocType ? (
-                  <View className="flex-row flex-wrap">
-                    <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                    <View>
-                      <Text className="font-poppins_regular text-base text-gray-400">
-                        Arquivo: {`${obterNomeArquivo(document.url)} | ${document.size}`}
+              return (
+                <View key={document.id} className="gap-4">
+                  {isAndroidAndDocType ? (
+                    <View className="flex-row flex-wrap">
+                      <Text className="font-poppins_bold text-lg">{document.title}</Text>
+                      <View>
+                        <Text className="font-poppins_regular text-base text-gray-400">
+                          Arquivo: {`${obterNomeArquivo(document.url)} | ${document.size}`}
+                        </Text>
+                      </View>
+                      <Text
+                        className="font-poppins_regular text-[#1976d2] underline"
+                        onPress={() => Linking.openURL(fileUrl)}>
+                        Fazer o download ou abrir no navegador.
                       </Text>
                     </View>
-                    <Text
-                      className="font-poppins_regular text-[#1976d2] underline"
-                      onPress={() => Linking.openURL(fileUrl)}>
-                      Fazer o download ou abrir no navegador.
-                    </Text>
-                  </View>
-                ) : (
-                  <View>
-                    <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                    <WebView
-                      source={{ uri: `${BASEURL}${document.url}` }}
-                      style={{ height: 400 }}
-                      startInLoadingState
-                      scrollEnabled
-                      nestedScrollEnabled
-                    />
-                  </View>
-                )}
-              </View>
-            );
-          })}
+                  ) : (
+                    <View>
+                      <Text className="font-poppins_bold text-lg">{document.title}</Text>
+                      <WebView
+                        source={{ uri: `${BASEURL}${document.url}` }}
+                        style={{ height: 400 }}
+                        startInLoadingState
+                        scrollEnabled
+                        nestedScrollEnabled
+                      />
+                    </View>
+                  )}
+                </View>
+              );
+            })
+          ) : (
+            <Text className="font-poppins_regular text-zinc-400">
+              Você ainda não possui documentos para visualizar.
+            </Text>
+          )}
         </View>
       </ScrollView>
     </Container>
