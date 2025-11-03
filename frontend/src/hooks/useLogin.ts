@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextInput } from 'react-native';
 import { useUser } from '@/context';
-import { IPLOCAL } from '@/utils/config';
+import { BASEURL } from '@/utils/config';
 
 export const useLogin = () => {
   const { setUser } = useUser();
@@ -25,7 +25,7 @@ export const useLogin = () => {
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const response = await fetch(`${IPLOCAL}/auth/login`, {
+      const response = await fetch(`${BASEURL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,8 +41,6 @@ export const useLogin = () => {
       }
 
       const user: userSession = result.user;
-      console.log(result.message);
-      console.log(user);
       await AsyncStorage.setItem('user', JSON.stringify(user));
       setUser(user);
     } catch (error: any) {
