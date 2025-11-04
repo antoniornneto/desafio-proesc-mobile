@@ -63,28 +63,7 @@
       "description": "Comunicado sobre reunião de pais e mestres."
     }
   ],
-  "uploadedDocuments": [
-    {
-      "id": "aa74cf5e-2ebb-488a-97c6-fb478a785187",
-      "title": "teste dois",
-      "category": "atestado",
-      "type": "pdf",
-      "url": "/assets/uploads/1762204501982-492050184.pdf",
-      "status": "enviado",
-      "date": "2025-11-03T21:15:02.007Z",
-      "size": "128822"
-    },
-    {
-      "id": "333f6203-5b48-4143-9368-42f2fac540b8",
-      "title": "Sem outro",
-      "category": "outros",
-      "type": "jpeg",
-      "url": "/assets/uploads/1762205406314-499066800.jpeg",
-      "status": "enviado",
-      "date": "2025-11-03T21:30:06.999Z",
-      "size": "64254"
-    }
-  ],
+  "uploadedDocuments": [],
   "statusConfig": {
     "colors": {
       "enviado": "#6c757d",

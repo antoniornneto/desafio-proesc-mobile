@@ -123,14 +123,66 @@ desafio-proesc-mobile/
 
 ### 1. Tela de login
 
-Credenciais de teste:
+![tela de login](image/login.jpg)
+
+```
+# Credenciais de teste:
 
 - matrícula: 2025070015
 - senha: 123321
-
-Na tela de login, insira as credenciais
-
-```bash
-#bash
-npm install
 ```
+
+- Na tela de login, insira as credenciais e clique em `Entrar`.
+
+### 2. Home
+
+![tela de home](image/home.jpg)
+
+- Você será redirecionado para a `Home`, onde poderá ver os documentos diponíveis pela instituição por ordem de postagem e também verá a sua lista de documentos enviado. Essa lista começa vazia para que você faça os testes de envio de documentos.
+
+- Você pode navegar para as telas `Documentos Disponíves` e `Documentos Enviados` para ver mais.
+
+### 3. Documentos Disponíveis
+
+![tela de documentos disponíveis](image/doc_disponivel.jpg)
+
+- Nesta tela, você encontra na parte superior um `input` que te permite buscar os documentos pelas categorias sugeridas acima dele.
+
+![exemplo de uso do input de busca](image/input.jpg)
+
+- Você pode navegar livremente tendo uma visualização prévia dos documentos `inline`. Note que, especificamente no `Android`, arquivos como `.docx` e `.pdf` não são exibidos porque na versão atual do `Expo (v.54)`, a lib que permitia a visualização foi descontinuada. Entretanto, no `iOS` é completamente possível visualizar os formatos `.docx`. `.pdf`, `.jpeg` `.html`.
+
+### 4. Documentos Enviados
+
+![tela de documentos enviados](image/doc_disponivel.jpg)
+
+- Nesta tela, você encontra o mesmo `input` da tela anterior, porém com categorias diferentes.
+
+![botão do modal bottomsheet](image/bottom_sheet.jpg)
+
+- A tela também possui um botão de adicionar no canto inferior direito permitindo o usuário enviar um novo documento:
+
+  1. Clique no botão para abrir o modal `bottomsheet`;
+  2. Preencha o campo `título do arquivo`;
+  3. Escolha uma `categoria` clicando sobre ela até que ela fique com uma cor preta;
+  4. Escolha a fonte que virá o seu arquivo: `camera`, `galeria` e `arquivos`;
+  5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS`);
+  6. Clique em `enviar`;
+
+  ![exemplo de uso do envio de documento](image/envio_doc.jpg)
+
+- Assim que enviar o documento, você verá um `hot reload` na página para recarregar o seu arquivo. Para visualizar a mudança de status, volte para a tela de `Home` assim que enivar a foto clicando no botão de retorno `<-`.
+
+### 5. Atualização em Tempo Real
+
+- Uma vez que o documento foi enviado, você pode acompanhar a mudança de `status` do seu documento na tela inicial. Assim que é enviado, é possível ver o status `Enviado`.
+  ![tela com status enviado](image/status_enviado.jpg)
+
+- Após um tempo, é possível visualizar o status sendo alterado para `Em Análise`.
+  ![tela com status em análise](image/status_em_analise.jpg)
+
+- E por fim, o status muda para `Aprovado` se estiver tudo certo com o seu documento.
+  ![tela com status aprovado](image/status_aprovado.jpg)
+
+  > Você controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
+  > Altere os valores de `inicio` e `analise`. Use unidades em milissegundos. Ex.: 1 seg > 1000, 5 seg > 5000.

@@ -6,6 +6,9 @@ import {
   ScrollView,
   TextInput,
   Linking,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
   Platform,
   TouchableOpacity,
   RefreshControl,
@@ -21,7 +24,6 @@ import { useSentDocuments } from '@/hooks/useSentDocuments';
 import { BottomSheetModal, BottomSheetView, BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { AndroidWarning } from '@/components/AndroidWarning';
-import { FileStatus } from '@/components/FileStatus';
 
 export default function SentDocuments({ navigation }: any) {
   const {
@@ -127,11 +129,7 @@ export default function SentDocuments({ navigation }: any) {
                   {isAndroidAndDocType ? (
                     <View className="flex-col">
                       <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                      <View></View>
                       <View>
-                        <Text className="font-poppins_regular text-base text-gray-400">
-                          <FileStatus status={document.status} tipo={document.category} />
-                        </Text>
                         <Text className="font-poppins_regular text-base text-gray-400">
                           Data de envio:{' '}
                           {`${formatarDataISO(document.date)} | ${formatarTamanhoArquivo(document.size)}`}
@@ -146,9 +144,6 @@ export default function SentDocuments({ navigation }: any) {
                   ) : (
                     <View>
                       <Text className="font-poppins_bold text-lg">{document.title}</Text>
-                      <Text className="font-poppins_regular text-base text-gray-400">
-                        <FileStatus status={document.status} tipo={document.category} />
-                      </Text>
                       <Text className="font-poppins_regular text-base text-gray-400">
                         Data de envio:{' '}
                         {`${formatarDataISO(document.date)} | ${formatarTamanhoArquivo(document.size)}`}
@@ -185,119 +180,129 @@ export default function SentDocuments({ navigation }: any) {
         index={1}
         enableDismissOnClose>
         <BottomSheetView className="flex-1">
-          <View className="gap-4 p-8">
-            <Text className="mb-3 font-poppins_bold text-xl">Adicionar Documento</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1 }}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View className="gap-4 p-8">
+                <Text className="mb-3 font-poppins_bold text-xl">Adicionar Documento</Text>
 
-            {/* Título */}
-            <View>
-              <Text className="mb-2 font-poppins_regular text-gray-500">Título do arquivo:</Text>
-              <BottomSheetTextInput
-                placeholder="Ex.: Atestado Médico 03/11/2025"
-                className="h-12 rounded-lg border border-[#bbbbbb] px-3 py-2 font-poppins_regular"
-                value={fileTitle}
-                onChangeText={setFileTitle}
-                keyboardType="default"
-                autoCapitalize="words"
-              />
-            </View>
-
-            {/* Categoria */}
-            <Text className="font-poppins_regular text-gray-500">Escolha a categoria:</Text>
-            <View className="flex-row flex-wrap justify-evenly gap-2">
-              {categoriesU &&
-                Object.entries(categoriesU).map(([key, value]) => (
-                  <TouchableOpacity
-                    key={key}
-                    onPress={() => setSelectedCategory(key)}
-                    className={`mr-2 rounded-full border px-3 py-1 ${
-                      selectedCategory === key ? 'border-black bg-black' : 'border-gray-300'
-                    }`}>
-                    <Text
-                      className={`font-poppins_regular ${
-                        selectedCategory === key ? 'text-white' : 'text-gray-700'
-                      }`}>
-                      {value}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-            </View>
-
-            {/* Selecionar fonte */}
-            <View className="mb-4 gap-2">
-              <Text className="mb-2 font-poppins_regular text-gray-500">Escolha a fonte:</Text>
-              <View className="w-full flex-row justify-around">
-                <TouchableOpacity
-                  onPress={() => handleSelectFile('camera')}
-                  className="items-center">
-                  <Ionicons name="camera" size={30} color="#000" />
-                  <Text>Câmera</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleSelectFile('gallery')}
-                  className="items-center">
-                  <Ionicons name="image" size={30} color="#000" />
-                  <Text>Galeria</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleSelectFile('files')}
-                  className="items-center">
-                  <Ionicons name="document" size={30} color="#000" />
-                  <Text>Arquivos</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {fileUri && (
-              <View className="mb-4">
-                {fileType?.startsWith('image') ? (
-                  <Image
-                    source={{ uri: fileUri }}
-                    style={{ width: '100%', height: height * 0.35 }}
-                    resizeMode="contain"
-                  />
-                ) : fileType === 'application/pdf' && localFileUri && Platform.OS !== 'android' ? (
-                  <WebView
-                    originWhitelist={['*']}
-                    source={{ uri: localFileUri }}
-                    style={{ height: height * 0.35, width: '100%' }}
-                    startInLoadingState
-                    scrollEnabled
-                    nestedScrollEnabled
-                  />
-                ) : fileType ===
-                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ? (
-                  <Text className="mt-4 text-center font-poppins_regular text-gray-500">
-                    Pré-visualização não disponível para arquivos DOCX
+                {/* Título */}
+                <View>
+                  <Text className="mb-2 font-poppins_regular text-gray-500">
+                    Título do arquivo:
                   </Text>
+                  <BottomSheetTextInput
+                    placeholder="Ex.: Atestado Médico 03/11/2025"
+                    className="h-12 rounded-lg border border-[#bbbbbb] px-3 py-2 font-poppins_regular"
+                    value={fileTitle}
+                    onChangeText={setFileTitle}
+                    keyboardType="default"
+                    autoCapitalize="words"
+                  />
+                </View>
+
+                {/* Categoria */}
+                <Text className="font-poppins_regular text-gray-500">Escolha a categoria:</Text>
+                <View className="flex-row flex-wrap justify-evenly gap-2">
+                  {categoriesU &&
+                    Object.entries(categoriesU).map(([key, value]) => (
+                      <TouchableOpacity
+                        key={key}
+                        onPress={() => setSelectedCategory(key)}
+                        className={`mr-2 rounded-full border px-3 py-1 ${
+                          selectedCategory === key ? 'border-black bg-black' : 'border-gray-300'
+                        }`}>
+                        <Text
+                          className={`font-poppins_regular ${
+                            selectedCategory === key ? 'text-white' : 'text-gray-700'
+                          }`}>
+                          {value}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                </View>
+
+                {/* Selecionar fonte */}
+                <View className="mb-4 gap-2">
+                  <Text className="mb-2 font-poppins_regular text-gray-500">Escolha a fonte:</Text>
+                  <View className="w-full flex-row justify-around">
+                    <TouchableOpacity
+                      onPress={() => handleSelectFile('camera')}
+                      className="items-center">
+                      <Ionicons name="camera" size={30} color="#000" />
+                      <Text>Câmera</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleSelectFile('gallery')}
+                      className="items-center">
+                      <Ionicons name="image" size={30} color="#000" />
+                      <Text>Galeria</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleSelectFile('files')}
+                      className="items-center">
+                      <Ionicons name="document" size={30} color="#000" />
+                      <Text>Arquivos</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {fileUri && (
+                  <View className="mb-4">
+                    {fileType?.startsWith('image') ? (
+                      <Image
+                        source={{ uri: fileUri }}
+                        style={{ width: '100%', height: height * 0.35 }}
+                        resizeMode="contain"
+                      />
+                    ) : fileType === 'application/pdf' &&
+                      localFileUri &&
+                      Platform.OS !== 'android' ? (
+                      <WebView
+                        originWhitelist={['*']}
+                        source={{ uri: localFileUri }}
+                        style={{ height: height * 0.35, width: '100%' }}
+                        startInLoadingState
+                        scrollEnabled
+                        nestedScrollEnabled
+                      />
+                    ) : fileType ===
+                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ? (
+                      <Text className="mt-4 text-center font-poppins_regular text-gray-500">
+                        Pré-visualização não disponível para arquivos DOCX
+                      </Text>
+                    ) : (
+                      <Text className="mt-4 text-center font-poppins_regular text-gray-500">
+                        Pré-visualização não disponível.
+                      </Text>
+                    )}
+                  </View>
+                )}
+
+                {uploading ? (
+                  <View className="flex-row items-center">
+                    <ActivityIndicator size="small" color="#1976d2" />
+                    <Text className="ml-2 font-poppins_regular">{uploadStatus}</Text>
+                  </View>
                 ) : (
-                  <Text className="mt-4 text-center font-poppins_regular text-gray-500">
-                    Pré-visualização não disponível.
-                  </Text>
+                  <TouchableOpacity
+                    onPress={async () => {
+                      const uploadOk = await handleUpload(selectedCategory);
+                      if (uploadOk) {
+                        bottomSheetModalRef.current?.close();
+                        setTimeout(() => {
+                          onRefresh();
+                        }, 1000);
+                      }
+                    }}
+                    className="rounded-lg bg-black px-4 py-2">
+                    <Text className="text-center font-poppins_bold text-white">Enviar</Text>
+                  </TouchableOpacity>
                 )}
               </View>
-            )}
-
-            {uploading ? (
-              <View className="flex-row items-center">
-                <ActivityIndicator size="small" color="#1976d2" />
-                <Text className="ml-2 font-poppins_regular">{uploadStatus}</Text>
-              </View>
-            ) : (
-              <TouchableOpacity
-                onPress={async () => {
-                  const uploadOk = await handleUpload(selectedCategory);
-                  if (uploadOk) {
-                    bottomSheetModalRef.current?.close();
-                    setTimeout(() => {
-                      onRefresh();
-                    }, 1000);
-                  }
-                }}
-                className="rounded-lg bg-black px-4 py-2">
-                <Text className="text-center font-poppins_bold text-white">Enviar</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
         </BottomSheetView>
       </BottomSheetModal>
     </Container>
