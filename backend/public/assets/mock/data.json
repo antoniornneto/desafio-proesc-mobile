@@ -63,7 +63,18 @@
       "description": "Comunicado sobre reunião de pais e mestres."
     }
   ],
-  "uploadedDocuments": [],
+  "uploadedDocuments": [
+    {
+      "id": "0e5c41d8-3a50-458a-b1a9-d1c7cf4cc0b6",
+      "title": "Teste de envio",
+      "category": "atestado",
+      "type": "pdf",
+      "url": "/assets/uploads/1762216114180-155616266.pdf",
+      "status": "aprovado",
+      "date": "2025-11-04T00:28:34.203Z",
+      "size": "128822"
+    }
+  ],
   "statusConfig": {
     "colors": {
       "enviado": "#6c757d",

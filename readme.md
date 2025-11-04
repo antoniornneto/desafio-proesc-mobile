@@ -176,16 +176,10 @@ desafio-proesc-mobile/
 ### 5. Atualização em Tempo Real
 
 - Uma vez que o documento foi enviado, você pode acompanhar a mudança de `status` do seu documento na tela inicial. Assim que é enviado, é possível ver o status `Enviado`.
+- Após um tempo, é possível visualizar a página atualizando automáticamente e alterando o status sendo alterado para `Em Análise`.
+- E por fim, mais uma atualização automática o status muda para `Aprovado` se estiver tudo certo com o seu documento.
 
-<img src="image/status_enviado.jpg" alt="tela com status enviado" width="300"/>
-
-- Após um tempo, é possível visualizar o status sendo alterado para `Em Análise`.
-
-<img src="image/status_em_analise.jpg" alt="tela com status em análise" width="300"/>
-
-- E por fim, o status muda para `Aprovado` se estiver tudo certo com o seu documento.
-
-<img src="image/status_aprovado.jpg" alt="tela com status aprovado" width="300"/>
+<img src="image/gif_status.gif" alt="gif alterando status" width="300"/>
 
 > Você controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
 > Altere os valores de `inicio` e `analise`. Use unidades em milissegundos. Ex.: 1 seg > 1000, 5 seg > 5000.
