@@ -123,7 +123,7 @@ desafio-proesc-mobile/
 
 ### 1. Tela de login
 
-![tela de login](image/login.jpg)
+<img src="image/login.jpg" alt="tela de login" width="300"/>
 
 ```
 # Credenciais de teste:
@@ -136,7 +136,7 @@ desafio-proesc-mobile/
 
 ### 2. Home
 
-![tela de home](image/home.jpg)
+<img src="image/home.jpg" alt="tela de login" width="300"/>
 
 - Você será redirecionado para a `Home`, onde poderá ver os documentos diponíveis pela instituição por ordem de postagem e também verá a sua lista de documentos enviado. Essa lista começa vazia para que você faça os testes de envio de documentos.
 
@@ -144,21 +144,21 @@ desafio-proesc-mobile/
 
 ### 3. Documentos Disponíveis
 
-![tela de documentos disponíveis](image/doc_disponivel.jpg)
+<img src="image/doc_disponivel.jpg" alt="tela de documentos disponíveis" width="300"/>
 
 - Nesta tela, você encontra na parte superior um `input` que te permite buscar os documentos pelas categorias sugeridas acima dele.
 
-![exemplo de uso do input de busca](image/input.jpg)
+<img src="image/input.jpg" alt="exemplo de uso do input de busca" width="300"/>
 
 - Você pode navegar livremente tendo uma visualização prévia dos documentos `inline`. Note que, especificamente no `Android`, arquivos como `.docx` e `.pdf` não são exibidos porque na versão atual do `Expo (v.54)`, a lib que permitia a visualização foi descontinuada. Entretanto, no `iOS` é completamente possível visualizar os formatos `.docx`. `.pdf`, `.jpeg` `.html`.
 
 ### 4. Documentos Enviados
 
-![tela de documentos enviados](image/doc_disponivel.jpg)
+  <img src="image/doc_enviados.jpg" alt="tela de documentos enviados" width="300"/>
 
 - Nesta tela, você encontra o mesmo `input` da tela anterior, porém com categorias diferentes.
 
-![botão do modal bottomsheet](image/bottom_sheet.jpg)
+  <img src="image/bottom_sheet.jpg" alt="tela do bottomsheet aberto" width="300"/>
 
 - A tela também possui um botão de adicionar no canto inferior direito permitindo o usuário enviar um novo documento:
 
@@ -169,20 +169,29 @@ desafio-proesc-mobile/
   5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS`);
   6. Clique em `enviar`;
 
-  ![exemplo de uso do envio de documento](image/envio_doc.jpg)
+<img src="image/envio_doc.jpg" alt="exemplo de uso do envio de documentos" width="300"/>
 
 - Assim que enviar o documento, você verá um `hot reload` na página para recarregar o seu arquivo. Para visualizar a mudança de status, volte para a tela de `Home` assim que enivar a foto clicando no botão de retorno `<-`.
 
 ### 5. Atualização em Tempo Real
 
 - Uma vez que o documento foi enviado, você pode acompanhar a mudança de `status` do seu documento na tela inicial. Assim que é enviado, é possível ver o status `Enviado`.
-  ![tela com status enviado](image/status_enviado.jpg)
+
+<img src="image/status_enviado.jpg" alt="tela com status enviado" width="300"/>
 
 - Após um tempo, é possível visualizar o status sendo alterado para `Em Análise`.
-  ![tela com status em análise](image/status_em_analise.jpg)
+
+<img src="image/status_em_analise.jpg" alt="tela com status em análise" width="300"/>
 
 - E por fim, o status muda para `Aprovado` se estiver tudo certo com o seu documento.
-  ![tela com status aprovado](image/status_aprovado.jpg)
 
-  > Você controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
-  > Altere os valores de `inicio` e `analise`. Use unidades em milissegundos. Ex.: 1 seg > 1000, 5 seg > 5000.
+<img src="image/status_aprovado.jpg" alt="tela com status aprovado" width="300"/>
+
+> Você controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
+> Altere os valores de `inicio` e `analise`. Use unidades em milissegundos. Ex.: 1 seg > 1000, 5 seg > 5000.
+
+---
+
+# Conclusão
+
+Com o ambiente configurado e o servidor rodando, você pode testar todo o fluxo do aplicativo — desde o login até o envio e atualização de status dos documentos.
