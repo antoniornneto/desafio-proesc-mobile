@@ -154,20 +154,20 @@ desafio-proesc-mobile/
 
 ### 4. Documentos Enviados
 
-  <img src="image/doc_enviados.jpg" alt="tela de documentos enviados" width="300"/>
+<img src="image/doc_enviados.jpg" alt="tela de documentos enviados" width="300"/>
 
 - Nesta tela, você encontra o mesmo `input` da tela anterior, porém com categorias diferentes.
 
-  <img src="image/bottom_sheet.jpg" alt="tela do bottomsheet aberto" width="300"/>
-
 - A tela também possui um botão de adicionar no canto inferior direito permitindo o usuário enviar um novo documento:
 
-  1. Clique no botão para abrir o modal `bottomsheet`;
-  2. Preencha o campo `título do arquivo`;
-  3. Escolha uma `categoria` clicando sobre ela até que ela fique com uma cor preta;
-  4. Escolha a fonte que virá o seu arquivo: `camera`, `galeria` e `arquivos`;
-  5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS`);
-  6. Clique em `enviar`;
+<img src="image/bottom_sheet.jpg" alt="tela do bottomsheet aberto" width="300"/>
+
+1. Clique no botão para abrir o modal `bottomsheet`;
+2. Preencha o campo `título do arquivo`;
+3. Escolha uma `categoria` clicando sobre ela até que ela fique com uma cor preta;
+4. Escolha a fonte que virá o seu arquivo: `camera`, `galeria` e `arquivos`;
+5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS`);
+6. Clique em `enviar`;
 
 <img src="image/envio_doc.jpg" alt="exemplo de uso do envio de documentos" width="300"/>
 
