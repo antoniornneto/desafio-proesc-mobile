@@ -166,7 +166,7 @@ desafio-proesc-mobile/
 2. Preencha o campo `título do arquivo`;
 3. Escolha uma `categoria` clicando sobre ela até que ela fique com uma cor preta;
 4. Escolha a fonte que virá o seu arquivo: `camera`, `galeria` e `arquivos`;
-5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS`);
+5. Será exibida a prévia do documento selecionado se possível (disponível somente para `iOS` para algumas extensões);
 6. Clique em `enviar`;
 
 <img src="image/envio_doc.jpg" alt="exemplo de uso do envio de documentos" width="300"/>
