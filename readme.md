@@ -181,7 +181,7 @@ desafio-proesc-mobile/
 
 <img src="image/gif_status.gif" alt="gif alterando status" width="300"/>
 
-> Você controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
+> Você pode controlar o tempo em que a atualização ocorre de forma automática dentro da função `autoUpdateStatusFile` que pode ser encontrado na linha 31 do arquivo `/frontend/src/screen/Home.tsx`.
 > Altere os valores de `inicio` e `analise`. Use unidades em milissegundos. Ex.: 1 seg > 1000, 5 seg > 5000.
 
 ---
